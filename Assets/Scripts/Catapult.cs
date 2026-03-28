@@ -33,11 +33,18 @@ namespace DefaultNamespace
                 motorSpeed = 0,
                 maxMotorTorque = 10000
             };
+            
+        }
+
+        private void FixedUpdate()
+        {
+            GetComponent<HingeJoint2D>().enabled = placed && rotated;
+            GetComponent<Rigidbody2D>().bodyType = placed&&rotated ? RigidbodyType2D.Dynamic : RigidbodyType2D.Kinematic;
         }
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (shot || !placed) return;
+            if (shot || !placed || !rotated) return;
             var candidate = other.collider.attachedRigidbody;
             if (candidate&& candidate.name == "Friend"&&candidate.bodyType==RigidbodyType2D.Dynamic)
             {

@@ -4,14 +4,18 @@ using UnityEngine;
 public class Placeable : MonoBehaviour
 {
     public bool placed;
+    public bool rotated;
     public Vector2 placedPos;
     public Quaternion placedRot;
 
-    public void Place()
+
+    public virtual void StartMove()
     {
-        placed = true;
-        placedPos = transform.position;
-        placedRot = transform.rotation;
+        
+    }
+    public virtual void StopMove()
+    {
+        
     }
     public virtual void Reset()
     {

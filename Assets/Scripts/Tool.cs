@@ -24,13 +24,25 @@ public class Tool : MonoBehaviour
                     current = placeable;
                     
                     placeable.placed = false;
+                    placeable.rotated = false;
+                    current.StartMove();
                 }
                 else
                 {
                     if (current)
                     {
-                        current.Place();
-                        current = null;
+                        if (!current.placed)
+                        {
+                            current.placed = true;
+                            current.placedPos = worldPos;
+                        }
+                        else
+                        {
+                            current.rotated = true;
+                            current.placedRot = current.transform.rotation;
+                            current.StopMove();
+                            current = null;
+                        }
                     }
                    
                 }
@@ -53,10 +65,21 @@ public class Tool : MonoBehaviour
             {
                 if (CanPlace())
                 {
-                    current.Place();
-                    player.placed.Add(current);
-                    current = Instantiate(current, worldPos, current.transform.rotation);
-                    current.placed = false;
+                    if (!current.placed)
+                    {
+                        current.placed = true;
+                        current.placedPos = worldPos;
+                    }
+                    else
+                    {
+                        current.rotated = true;
+                        current.placedRot = current.transform.rotation;
+                        player.placed.Add(current);
+                        current.StopMove();
+                        current = Instantiate(current, worldPos, current.transform.rotation);
+                        current.placed = false;
+                        current.rotated = false;
+                    }
                 }
                 break;
             }
@@ -66,10 +89,30 @@ public class Tool : MonoBehaviour
 
     public void Update()
     {
-        if(current && !current.placed)
+        if(current )
         {
             var worldPos = player.cursorWorldPos;
-            current.transform.position = worldPos;
+            if (!current.placed)
+            {
+                current.transform.position = worldPos;
+            }
+            else
+            {
+                if (!current.rotated)
+                {
+                    var dir =  worldPos - current.placedPos;
+                    if (dir.magnitude > 1f)
+                    {
+                        current.transform.up = dir.normalized;
+                    }
+                    else
+                    {
+                        current.transform.up = current.placedRot * Vector2.up;
+                    }
+                }
+            }
+           
+    
         }
     }
 
@@ -94,7 +137,9 @@ public class Tool : MonoBehaviour
             return;
         }
         current = Instantiate(placeablePrefabs[option-2], player.cursorWorldPos, Quaternion.identity);
+        current.StartMove();
         current.placed = false;
+        current.rotated = false;
     }
     public bool CanPlace()
     {

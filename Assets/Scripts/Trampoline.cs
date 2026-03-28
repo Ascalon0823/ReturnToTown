@@ -7,7 +7,7 @@ public class Trampoline : Placeable
     public float addtionalPower;
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(!placed) return;
+        if(!placed || !rotated) return;
         var rigid = other.attachedRigidbody;
         if (rigid && rigid.name == "Friend"&&rigid.bodyType==RigidbodyType2D.Dynamic)
         {
