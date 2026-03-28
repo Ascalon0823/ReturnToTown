@@ -28,7 +28,8 @@ public class Player : MonoBehaviour
 
     public Transform friendStart;
 
-    public List<Placeable> placed = new ();
+    public List<Placeable> placed = new();
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -42,6 +43,7 @@ public class Player : MonoBehaviour
     {
         onUI = EventSystem.current.IsPointerOverGameObject();
         cursorWorldPos = mainCam.ScreenToWorldPoint(cursorPos);
+        Debug.Log(GetComponent<PlayerInput>().currentActionMap.name);
     }
 
     private void FixedUpdate()
@@ -108,11 +110,18 @@ public class Player : MonoBehaviour
         tool.Use(cursorWorldPos);
     }
 
-    public void Reset()
+    public void StartSession()
+    {
+        ResetContent();
+        Physics2D.simulationMode = SimulationMode2D.FixedUpdate;
+        GetComponent<PlayerInput>().SwitchCurrentActionMap("Player");
+    }
+
+    public void ResetContent()
     {
         transform.position = playerStart.position;
         transform.rotation = playerStart.rotation;
-        if (friend )
+        if (friend)
         {
             friend.rb2d.bodyType = RigidbodyType2D.Dynamic;
             friend.rb2d.transform.parent = null;
@@ -125,12 +134,18 @@ public class Player : MonoBehaviour
             friend.forceReceived = 0;
             friend.impulse = 0;
             friend.begin = false;
-            
         }
 
         foreach (var item in placed)
         {
             item.Reset();
         }
+    }
+
+    public void Reset()
+    {
+        ResetContent();
+        Physics2D.simulationMode = SimulationMode2D.Script;
+        GetComponent<PlayerInput>().SwitchCurrentActionMap("Edit");
     }
 }

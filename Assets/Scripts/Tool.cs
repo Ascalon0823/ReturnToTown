@@ -1,3 +1,5 @@
+using System.Linq;
+using DefaultNamespace;
 using UnityEngine;
 
 public class Tool : MonoBehaviour
@@ -76,10 +78,17 @@ public class Tool : MonoBehaviour
                         current.placedRot = current.transform.rotation;
                         player.placed.Add(current);
                         current.StopMove();
-                        current = Instantiate(current, worldPos, current.transform.rotation);
+                        current = Instantiate(current, worldPos, Quaternion.identity);
+                        current.placedPos = Vector2.zero;
+                        current.placedRot = Quaternion.identity;
                         current.placed = false;
                         current.rotated = false;
                     }
+                }
+                else
+                {
+                    
+                    Debug.Log($"Cannot place {current?.GetType().Name}");
                 }
                 break;
             }
@@ -143,6 +152,6 @@ public class Tool : MonoBehaviour
     }
     public bool CanPlace()
     {
-        return current;
+        return current && (current is not Catapult || player.placed.Count(x=> x is Catapult)==0);
     }
 }
