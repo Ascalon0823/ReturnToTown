@@ -51,7 +51,11 @@ public class Player : MonoBehaviour
             var yeetDir = new Vector2(Mathf.Sign(moveDir.x == 0 ? -1 : moveDir.x), 1f);
             
             var yeetForce = yeetDir * yeetPower;
+            
+            var friend = holdingFriend.GetComponent<Friend>();
+            friend.begin = true;
             holdingFriend.AddForce(yeetForce, ForceMode2D.Impulse);
+            friend.forceReceived += yeetForce.magnitude;
             holdingFriend = null;
             return;
         }
@@ -67,6 +71,8 @@ public class Player : MonoBehaviour
             holdingFriend.transform.parent = transform;
             holdingFriend.transform.localPosition = Vector3.up;
             holdingFriend.transform.localRotation = Quaternion.identity;
+            var friend = holdingFriend.GetComponent<Friend>();
+            friend.begin = false;
         }
     }
 }
