@@ -26,7 +26,7 @@ namespace DefaultNamespace
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (shot) return;
-            var candidate  = other.collider.GetComponent<Rigidbody2D>();
+            var candidate = other.collider.attachedRigidbody;
             if (candidate&& candidate.name == "Friend"&&candidate.bodyType==RigidbodyType2D.Dynamic)
             {
                 body = candidate;

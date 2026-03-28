@@ -7,7 +7,7 @@ public class Trampoline : MonoBehaviour
     public float addtionalPower;
     private void OnTriggerEnter2D(Collider2D other)
     {
-        var rigid =  other.GetComponent<Rigidbody2D>();
+        var rigid = other.attachedRigidbody;
         if (rigid && rigid.name == "Friend"&&rigid.bodyType==RigidbodyType2D.Dynamic)
         {
             if (Vector2.Dot(rigid.linearVelocity.normalized, transform.up) > 0) return;

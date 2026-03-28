@@ -11,6 +11,8 @@ public class Friend : MonoBehaviour
     public Rigidbody2D rb2d;
     public float forceReceived;
     public Town town;
+    public Collider2D c;
+    public Collider2D ground;
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (begin)
@@ -19,7 +21,7 @@ public class Friend : MonoBehaviour
 
     public bool TouchOnGround()
     {
-        return Physics2D.IsTouching(GetComponent<Collider2D>(), GameObject.Find("Ground").GetComponent<Collider2D>());
+        return Physics2D.IsTouching(c, ground);
     }
     private void FixedUpdate()
     {
