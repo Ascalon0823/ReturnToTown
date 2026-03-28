@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public class Catapult : MonoBehaviour
+    public class Catapult : Placeable
     {
         public float torque;
         public Transform loadHandle;
@@ -23,9 +23,21 @@ namespace DefaultNamespace
             body = null;
         }
 
+        public override void Reset()
+        {
+            base.Reset();
+            shot = false;
+            body = null;
+            GetComponent<HingeJoint2D>().motor = new JointMotor2D()
+            {
+                motorSpeed = 0,
+                maxMotorTorque = 10000
+            };
+        }
+
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (shot) return;
+            if (shot || !placed) return;
             var candidate = other.collider.attachedRigidbody;
             if (candidate&& candidate.name == "Friend"&&candidate.bodyType==RigidbodyType2D.Dynamic)
             {

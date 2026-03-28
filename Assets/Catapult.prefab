@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3314096092872248085}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24,13 +24,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1584676581198044991}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.7033948, w: 0.71079946}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.371, y: 0.78, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4726650652234255869}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -89.4}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1858041365572430162
 GameObject:
   m_ObjectHideFlags: 0
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 383829501857606820}
   - component: {fileID: 6911222965076185892}
   - component: {fileID: 8989063737246154344}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Catapult
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,6 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02abb3c6e54d4ed9ab7f9591c6a24d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.Catapult
+  placed: 0
   torque: 300
   loadHandle: {fileID: 3314096092872248085}
   shot: 0
@@ -125,7 +126,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 3.42, y: -3.89}
+  m_ConnectedAnchor: {x: 4.5, y: -3.88}
   m_UseConnectedAnchor: 1
   m_UseMotor: 1
   m_Motor:
@@ -146,7 +147,7 @@ GameObject:
   - component: {fileID: 4726650652234255869}
   - component: {fileID: 1645723349759257013}
   - component: {fileID: 5661079937869609855}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -284,7 +285,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2624496145627855373}
   - component: {fileID: 5194289267673488929}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

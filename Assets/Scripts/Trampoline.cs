@@ -1,12 +1,13 @@
 using System;
 using UnityEngine;
 
-public class Trampoline : MonoBehaviour
+public class Trampoline : Placeable
 {
     public int count = 1;
     public float addtionalPower;
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if(!placed) return;
         var rigid = other.attachedRigidbody;
         if (rigid && rigid.name == "Friend"&&rigid.bodyType==RigidbodyType2D.Dynamic)
         {
@@ -21,7 +22,7 @@ public class Trampoline : MonoBehaviour
             count--;
              if (count <= 0)
              {
-                 Destroy(gameObject);
+                 gameObject.SetActive(false);
              }
         }
     }
