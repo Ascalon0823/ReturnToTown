@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
             holdingFriend.transform.parent = null;
             var yeetDir = new Vector2(Mathf.Sign(moveDir.x == 0 ? -1 : moveDir.x), 1f);
             
-            var yeetForce = (yeetDir + moveDir * moveSpeed) * yeetPower;
+            var yeetForce = yeetDir * yeetPower;
             holdingFriend.AddForce(yeetForce, ForceMode2D.Impulse);
             holdingFriend = null;
             return;
