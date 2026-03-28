@@ -10,6 +10,7 @@ public class Friend : MonoBehaviour
     public Vector2 lastPos;
     public Rigidbody2D rb2d;
     public float forceReceived;
+    public Town town;
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (begin)
@@ -30,11 +31,11 @@ public class Friend : MonoBehaviour
             impulse = 0;
             return;
         }
-
+        Debug.DrawLine(rb2d.position,rb2d.position + rb2d.linearVelocity,Color.red,1f);
         flyingDist += (rb2d.position - lastPos).magnitude;
         lastPos = rb2d.position;
         score = flyingDist * Mathf.Max(1f, impulse) * Mathf.Max(1f, forceReceived);
-        if (begin && rb2d.linearVelocity.magnitude < .1f && TouchOnGround())
+        if (begin && rb2d.linearVelocity.magnitude < .01f && TouchOnGround() && town.isIn)
         {
             Debug.Log("Score: " + score);
         }
