@@ -29,8 +29,10 @@ public class Player : MonoBehaviour
     public Transform friendStart;
 
     public List<Placeable> placed = new();
-    
+    public SpriteRenderer sr;
+    public GameObject[] tutorials;
 
+    public GameObject scoreBoard;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -43,7 +45,6 @@ public class Player : MonoBehaviour
     {
         onUI = EventSystem.current.IsPointerOverGameObject();
         cursorWorldPos = mainCam.ScreenToWorldPoint(cursorPos);
-        Debug.Log(GetComponent<PlayerInput>().currentActionMap.name);
     }
 
     private void FixedUpdate()
@@ -52,6 +53,7 @@ public class Player : MonoBehaviour
         if (moveDir.x != 0)
         {
             faceDir = Mathf.Sign(moveDir.x);
+            sr.flipX = faceDir <= 0;
         }
 
         body2D.MovePosition(body2D.position + moveDir * moveSpeed * Time.fixedDeltaTime);
@@ -82,16 +84,22 @@ public class Player : MonoBehaviour
             friend.rb2d.AddTorque(-yeetForce.magnitude);
             friend.forceReceived += yeetForce.magnitude;
             Focus.enabled = true;
+            friend.completed = false;
             return;
         }
 
-        if (friend)
+        if (friend && !friend.completed)
         {
             friend.rb2d.bodyType = RigidbodyType2D.Kinematic;
             friend.rb2d.transform.parent = transform;
             friend.rb2d.transform.localPosition = Vector3.up;
             friend.rb2d.transform.localRotation = Quaternion.identity;
             friend.begin = false;
+            friend.completed = false;
+            foreach (var go in tutorials)
+            {
+                go.SetActive(false);
+            }
         }
     }
 
@@ -113,8 +121,11 @@ public class Player : MonoBehaviour
     public void StartSession()
     {
         ResetContent();
-        Physics2D.simulationMode = SimulationMode2D.FixedUpdate;
         GetComponent<PlayerInput>().SwitchCurrentActionMap("Player");
+        foreach (var go in tutorials)
+        {
+            go.SetActive(true);
+        }
     }
 
     public void ResetContent()
@@ -134,18 +145,24 @@ public class Player : MonoBehaviour
             friend.forceReceived = 0;
             friend.impulse = 0;
             friend.begin = false;
+            friend.completed = false;
         }
 
         foreach (var item in placed)
         {
             item.Reset();
         }
+
+        foreach (var go in tutorials)
+        {
+            go.SetActive(false);
+        }
     }
 
     public void Reset()
     {
         ResetContent();
-        Physics2D.simulationMode = SimulationMode2D.Script;
         GetComponent<PlayerInput>().SwitchCurrentActionMap("Edit");
+        scoreBoard.SetActive(false);
     }
 }

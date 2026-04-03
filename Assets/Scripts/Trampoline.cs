@@ -5,6 +5,14 @@ public class Trampoline : Placeable
 {
     public int count = 1;
     public float addtionalPower;
+    public AudioClip sound;
+    public AudioSource source;
+
+    private void Start()
+    {
+        source.ignoreListenerPause = true;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(!placed || !rotated) return;
@@ -20,6 +28,9 @@ public class Trampoline : Placeable
             rigid.GetComponent<Friend>().forceReceived += force.magnitude;
             rigid.AddForce( force, ForceMode2D.Impulse);
             count--;
+            var ins = Instantiate(source);
+            
+            ins.PlayOneShot(sound);
              if (count <= 0)
              {
                  gameObject.SetActive(false);

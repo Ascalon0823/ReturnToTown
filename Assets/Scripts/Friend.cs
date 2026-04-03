@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Random = System.Random;
 
 public class Friend : MonoBehaviour
 {
@@ -13,10 +14,21 @@ public class Friend : MonoBehaviour
     public Town town;
     public Collider2D c;
     public Collider2D ground;
+    public GameObject vfxPrefab;
+    public bool completed = false;
+    public GameObject scoreBoard;
+    public AudioSource source;
+    public AudioClip[] ouch;
+    public AudioClip win;
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (begin)
+        {
+            
             impulse += other.contacts[0].normalImpulse;
+            source.pitch = UnityEngine.Random.Range(1f, 2f);
+            source.PlayOneShot(ouch[UnityEngine.Random.Range(0, ouch.Length-1)]);
+        }
     }
 
     public bool TouchOnGround()
@@ -37,9 +49,20 @@ public class Friend : MonoBehaviour
         flyingDist += (rb2d.position - lastPos).magnitude;
         lastPos = rb2d.position;
         score = flyingDist * Mathf.Max(1f, impulse) * Mathf.Max(1f, forceReceived);
-        if (begin && rb2d.linearVelocity.magnitude < .01f && TouchOnGround() && town.isIn)
+        if (!completed && begin && rb2d.linearVelocity.magnitude < .01f && TouchOnGround() && town.isIn)
         {
-            Debug.Log("Score: " + score);
+            
+            completed = true;
+            Invoke(nameof(Finish),1f);
         }
+    }
+
+    public void Finish()
+    {
+        Debug.Log("Score: " + score);
+        Instantiate(vfxPrefab, transform.position, Quaternion.identity);
+        scoreBoard.SetActive(true);
+        source.pitch = 1f;
+        source.PlayOneShot(win);
     }
 }

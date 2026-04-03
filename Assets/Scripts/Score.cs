@@ -15,6 +15,6 @@ public class Score : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        text.text = friend.score.ToString("0");
+        text.text = $"Yeet distance:    {friend.flyingDist:F0}\nDamage to your friend:  {friend.impulse*friend.forceReceived:F0}";
     }
 }

@@ -8,6 +8,7 @@ public class Tool : MonoBehaviour
     public Placeable current;
     public Player player;
     public Placeable[] placeablePrefabs;
+    public GameObject intro;
     public void Use(Vector2 worldPos)
     {
         
@@ -127,6 +128,7 @@ public class Tool : MonoBehaviour
 
     public void ChangeOption(int option)
     {
+        intro.gameObject.SetActive(false);
         if (current )
         {
             if (currentOption >= 2)

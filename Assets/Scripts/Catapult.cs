@@ -9,9 +9,12 @@ namespace DefaultNamespace
         public Transform loadHandle;
         public bool shot;
         public Rigidbody2D body;
+        public AudioClip sound;
+        public AudioSource source;
         public void Trigger()
         {
             Debug.Log("Shoot");
+            source.PlayOneShot(sound);
             body.constraints = RigidbodyConstraints2D.None;
             GetComponent<HingeJoint2D>().motor = new JointMotor2D()
             {
